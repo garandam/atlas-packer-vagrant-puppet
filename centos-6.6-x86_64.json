@@ -1,0 +1,67 @@
+{
+    "push": {
+      "name": "",
+      "vcs": false
+    },
+    "variables": {
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
+        "atlas_name": "{{env `ATLAS_NAME`}}",
+        "ks_boot_int_url": "<tab> <wait5> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6-x86_64/ks.cfg <wait><enter>"
+    },
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/base.sh",
+                "scripts/vagrant.sh",
+                "scripts/puppet.sh",
+                "scripts/virtualbox.sh",
+                "scripts/cleanup.sh"
+            ],
+            "override": {
+                "virtualbox-iso": {
+                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                }
+            }
+        }
+    ],
+	  "builders":  [
+	    {
+  		  "type": "virtualbox-iso",
+        "boot_command":["{{user `ks_boot_int_url`}}"],
+        "headless": true,
+        "boot_wait": "10s",
+        "disk_size": 20480,
+ 
+    		"guest_os_type": "RedHat_64",
+
+        "http_directory" : "http",
+    		"iso_url": "http://mirror.switch.ch/ftp/mirror/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
+    		"iso_checksum": "eb3c8be6ab668e6d83a118323a789e6c",
+  		  "iso_checksum_type": "md5",
+
+  		  "ssh_username": "root",
+  		  "ssh_password": "vagrant",
+        "ssh_port": 22,
+  		  "ssh_wait_timeout": "10000s",
+
+		    "shutdown_command": "/sbin/halt -h -p"
+	    }
+  	],
+	  "post-processors": [
+      [{
+        "type": "vagrant"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "version": "0.0.1"
+        }
+      }]
+    ]
+  
+}
