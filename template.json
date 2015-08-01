@@ -1,10 +1,11 @@
 {
   "push":{
-    "name":"",
+    "name":"garandam/centos-6.6-min-puppet",
     "vcs":true
   },
   "variables":{
-    "ks_boot_git_url":"<tab> <wait5> noverifyssl ks=https://raw.githubusercontent.com/garandam/atlas-packer-vagrant-puppet/master/http/centos-6.6-x86_64/ks.cfg <wait><enter>",
+    "atlas_name": "{{env `ATLAS_NAME`}}",
+    "atlas_username": "{{env `ATLAS_USERNAME`}}",
     "ks_boot_int_url":"<tab> <wait5> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6-x86_64/ks.cfg <wait><enter>"
   },
   "provisioners":[
@@ -33,7 +34,7 @@
     {
       "type":"virtualbox-iso",
       "boot_command":[
-        "{{user `ks_boot_git_url`}}"
+        "{{user `ks_boot_int_url`}}"
       ],
       "boot_wait":"10s",
       "disk_size":20480,
@@ -53,6 +54,16 @@
     [
       {
         "type":"vagrant"
+      },
+      {
+        "type": "atlas",
+        "only": ["virtualbox-iso"],
+        "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "provider": "virtualbox",
+          "version": "0.0.1"
+        }
       }
     ]
   ]

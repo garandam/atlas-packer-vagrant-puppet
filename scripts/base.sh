@@ -18,4 +18,8 @@ service ntpd start
 chkconfig sshd on
 chkconfig iptables off
 chkconfig ip6tables off
+
+# enable tty to run sudo
+sed -i 's/^\(Defaults.*requiretty\)/#\1/' /etc/sudoers
+
 echo "end - base"
