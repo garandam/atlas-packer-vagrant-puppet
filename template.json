@@ -1,13 +1,35 @@
 {
   "push":{
-    "name":"garandam/centos-6.6-min-puppet",
+    "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
     "vcs":true
   },
   "variables":{
     "atlas_name": "{{env `ATLAS_NAME`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
+    "artifactversion": "0.0.1",
+    "ks_boot_git_url":"<tab> <wait5> noverifyssl ks=https://raw.githubusercontent.com/garandam/atlas-packer-vagrant-puppet/master/http/centos-6.6-x86_64/ks.cfg <wait><enter>",
     "ks_boot_int_url":"<tab> <wait5> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6-x86_64/ks.cfg <wait><enter>"
   },
+  "builders":[
+    {
+      "type":"virtualbox-iso",
+      "headless": true,
+      "boot_wait":"10s",
+      "boot_command":[
+        "{{user `ks_boot_git_url`}}"
+      ],
+      "guest_os_type":"RedHat_64",
+      "http_directory":"http",
+      "iso_url":"http://mirror.switch.ch/ftp/mirror/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
+      "iso_checksum":"eb3c8be6ab668e6d83a118323a789e6c",
+      "iso_checksum_type":"md5",
+      "disk_size":20480,
+      "ssh_username":"root",
+      "ssh_password":"vagrant",
+      "ssh_wait_timeout":"10000s",
+      "shutdown_command":"/sbin/halt -h -p"
+    }
+  ],
   "provisioners":[
     {
       "type":"shell",
@@ -30,30 +52,11 @@
       ]
     }
   ],
-  "builders":[
-    {
-      "type":"virtualbox-iso",
-      "boot_command":[
-        "{{user `ks_boot_int_url`}}"
-      ],
-      "boot_wait":"10s",
-      "disk_size":20480,
-      "guest_os_type":"RedHat_64",
-      "http_directory":"http",
-      "iso_url":"http://mirror.switch.ch/ftp/mirror/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
-      "iso_checksum":"eb3c8be6ab668e6d83a118323a789e6c",
-      "iso_checksum_type":"md5",
-      "ssh_username":"root",
-      "ssh_password":"vagrant",
-      "ssh_port":22,
-      "ssh_wait_timeout":"10000s",
-      "shutdown_command":"/sbin/halt -h -p"
-    }
-  ],
   "post-processors":[
     [
       {
-        "type":"vagrant"
+        "type":"vagrant",
+        "keep_input_artifact": false
       },
       {
         "type": "atlas",
@@ -62,7 +65,7 @@
         "artifact_type": "vagrant.box",
         "metadata": {
           "provider": "virtualbox",
-          "version": "0.0.1"
+          "version": "{{user `artifactversion`}}"
         }
       }
     ]
