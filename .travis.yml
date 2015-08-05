@@ -10,15 +10,12 @@ before_install:
 script:
   - sudo mkdir /opt/packer
   - pushd /opt/packer
-  - echo "Downloading packer ${PACKER_VERSION}..."
-  - sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_${PACKER_VERSION}_linux_amd64.zip
-  - echo "Installing packer ${PACKER_VERSION}..."
-  - sudo unzip packer_${PACKER_VERSION}_linux_amd64.zip
-  - sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
+  - echo "Downloading packer $PACKER_VERSION..."
+  - sudo wget --no-verbose https://dl.bintray.com/mitchellh/packer/packer_$PACKER_VERSION_linux_amd64.zip
+  - echo "Installing packer $PACKER_VERSION..."
+  - sudo unzip packer_$PACKER_VERSION_linux_amd64.zip
+  - sudo rm packer_$PACKER_VERSION_linux_amd64.zip
   - pushd /usr/bin
   - "sudo ln -s /opt/packer/* ."
-deploy:
-  provider: script
-  script: "packer push -name=garandam/centos66min template.json"
-  on:
-    branch: master
+after-script:
+  - "packer push -name=garandam/centos66min template.json"
