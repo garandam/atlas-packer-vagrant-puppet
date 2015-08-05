@@ -2,7 +2,7 @@ Packer templates
 ======
 
 ## About
-This repository contains the [Packer] templates used to build boxes shipped to [Atlas].
+This repository contains the [Packer] template (template.json) used to build boxes shipped to [Atlas].
 
 ## VM settings
   - `root` password is set to `vagrant`

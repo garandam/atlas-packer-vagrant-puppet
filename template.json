@@ -7,8 +7,7 @@
     "atlas_name": "{{env `ATLAS_NAME`}}",
     "atlas_username": "{{env `ATLAS_USERNAME`}}",
     "artifactversion": "0.0.1",
-    "ks_boot_git_url":"<tab> <wait5> noverifyssl ks=https://raw.githubusercontent.com/garandam/atlas-packer-vagrant-puppet/master/http/centos-6.6-x86_64/ks.cfg <wait><enter>",
-    "ks_boot_int_url":"<tab> <wait5> ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-6.6-x86_64/ks.cfg <wait><enter>"
+    "ks_boot_git_url":"<tab> <wait5> noverifyssl ks=https://raw.githubusercontent.com/garandam/atlas-packer-vagrant-puppet/master/http/centos-6.6-x86_64/ks.cfg <wait><enter>"
   },
   "builders":[
     {
