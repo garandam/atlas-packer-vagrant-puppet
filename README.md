@@ -1,8 +1,10 @@
-Packer templates
+Packer template
 ======
 
+[![Build Status](https://travis-ci.org/garandam/atlas-packer-vagrant-puppet.svg?branch=master)](https://travis-ci.org/garandam/atlas-packer-vagrant-puppet)
+
 ## About
-This repository contains the [Packer] template (template.json) used to build boxes shipped to [Atlas].
+This repository contains the [Packer] template `(template.json) used to build boxes shipped to [Atlas] and the template `(centos-6.6-x86_64.json)` to build it on your own machine.
 
 ## VM settings
   - `root` password is set to `vagrant`

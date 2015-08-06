@@ -17,6 +17,5 @@ script:
   - sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
   - pushd /usr/bin
   - "sudo ln -s /opt/packer/* ."
-  - cd ~/build/garandam/atlas-packer-vagrant-puppet
-  - pwd
+  - cd ${TRAVIS_BUILD_DIR}
   - packer push template.json
