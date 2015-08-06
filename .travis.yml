@@ -17,6 +17,4 @@ script:
   - sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
   - pushd /usr/bin
   - "sudo ln -s /opt/packer/* ."
-deploy:
-  provider: script
-  script: "packer push -name=garandam/centos66min template.json"
+  - "packer push template.json"
