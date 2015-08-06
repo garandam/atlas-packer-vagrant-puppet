@@ -17,5 +17,6 @@ script:
   - sudo rm packer_${PACKER_VERSION}_linux_amd64.zip
   - pushd /usr/bin
   - "sudo ln -s /opt/packer/* ."
-  - find ~ -iname 'template.json'
-  - "packer push template.json"
+  - cd ~/build/garandam/atlas-packer-vagrant-puppet
+  - pwd
+  - packer push template.json
